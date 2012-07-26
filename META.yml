@@ -1,0 +1,30 @@
+---
+abstract: 'Interface to the Domino game.'
+author:
+  - 'Mohammad S Anwar <mohammad.anwar@yahoo.com>'
+build_requires:
+  List::Util: 1.25
+  Mouse: 0.93
+  Test::More: 0
+configure_requires:
+  Module::Build: 0.40
+dynamic_config: 1
+generated_by: 'Module::Build version 0.4001, CPAN::Meta::Converter version 2.120630'
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: Games-Domino
+provides:
+  Games::Domino:
+    file: lib/Games/Domino.pm
+    version: 0.01
+  Games::Domino::Player:
+    file: lib/Games/Domino/Player.pm
+    version: 0.01
+  Games::Domino::Tile:
+    file: lib/Games/Domino/Tile.pm
+    version: 0.01
+resources:
+  license: http://dev.perl.org/licenses/
+version: 0.01

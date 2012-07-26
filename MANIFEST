@@ -1,0 +1,20 @@
+Build.PL
+Changes
+lib/Games/Domino.pm
+lib/Games/Domino/Player.pm
+lib/Games/Domino/Tile.pm
+script/play-domino.pl
+Makefile.PL
+MANIFEST
+MANIFEST.SKIP
+SIGNATURE
+README
+t/00-load.t
+t/01-Games-Domino.t
+t/02-Games-Domino-Player.t
+t/03-Games-Domino-Tile.t
+t/manifest.t
+t/pod.t
+META.yml
+META.json
+SIGNATURE    Added here by Module::Build

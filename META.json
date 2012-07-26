@@ -1,0 +1,51 @@
+{
+   "abstract" : "Interface to the Domino game.",
+   "author" : [
+      "Mohammad S Anwar <mohammad.anwar@yahoo.com>"
+   ],
+   "dynamic_config" : 1,
+   "generated_by" : "Module::Build version 0.4001, CPAN::Meta::Converter version 2.120630",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : "2"
+   },
+   "name" : "Games-Domino",
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "List::Util" : "1.25",
+            "Mouse" : "0.93",
+            "Test::More" : "0"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "Module::Build" : "0.40"
+         }
+      }
+   },
+   "provides" : {
+      "Games::Domino" : {
+         "file" : "lib/Games/Domino.pm",
+         "version" : "0.01"
+      },
+      "Games::Domino::Player" : {
+         "file" : "lib/Games/Domino/Player.pm",
+         "version" : "0.01"
+      },
+      "Games::Domino::Tile" : {
+         "file" : "lib/Games/Domino/Tile.pm",
+         "version" : "0.01"
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "license" : [
+         "http://dev.perl.org/licenses/"
+      ]
+   },
+   "version" : "0.01"
+}
