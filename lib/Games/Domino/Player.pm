@@ -16,13 +16,12 @@ Games::Domino::Player - Represents the player of the Domino game.
 
 =head1 VERSION
 
-Version 0.01
+Version 0.02
 
 =cut
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
-type 'ZeroOrOne' => where { /^[1|0]$/ };
 type 'HorC' => where { /^[H|C]$/i };
 
 has 'name'  => (is => 'ro', isa => 'HorC', required => 1);

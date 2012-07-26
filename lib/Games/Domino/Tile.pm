@@ -14,21 +14,66 @@ Games::Domino::Tile - Represents the tile of the Domino game.
 
 =head1 VERSION
 
-Version 0.01
+Version 0.02
 
 =cut
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
+type 'ZeroOrOne' => where { /^[1|0]$/ };
 type 'ZeroToSix' => where { /^[0-6]$/ };
 
-has 'left'  => (is => 'rw', isa => 'ZeroToSix', required => 1);
-has 'right' => (is => 'rw', isa => 'ZeroToSix', required => 1);
+has 'left'   => (is => 'rw', isa => 'ZeroToSix', required => 1);
+has 'right'  => (is => 'rw', isa => 'ZeroToSix', required => 1);
+has 'top'    => (is => 'rw', isa => 'ZeroToSix', required => 0);
+has 'bottom' => (is => 'rw', isa => 'ZeroToSix', required => 0);
+has 'double' => (is => 'ro', isa => 'ZeroOrOne', required => 1);
 
 =head1 DESCRIPTION
 
 The Games::Domino::Tile class is used by Games::Domino class internally. It  shouldn't be used
 directly.
+
+=cut
+
+around BUILDARGS => sub
+{
+    my $orig  = shift;
+    my $class = shift;
+
+    unless (exists $_[0]->{double})
+    {
+        if (defined($_[0]->{left}) && defined($_[0]->{right}) && ($_[0]->{left} == $_[0]->{right}))
+        {
+            $_[0]->{double} = 1;
+            $_[0]->{top} = $_[0]->{bottom} = $_[0]->{left};
+        }
+        else
+        {
+            $_[0]->{double} = 0;
+        }
+    }
+
+    croak("ERROR: Invalid double attribute for the tile.\n")
+        if (defined($_[0]->{left})
+            &&
+            defined($_[0]->{right})
+            &&
+            ( (($_[0]->{left} == $_[0]->{right})
+               &&
+               ($_[0]->{double} != 1))
+              ||
+              (($_[0]->{left} != $_[0]->{right})
+               &&
+               ($_[0]->{double} != 0)) )) ;
+
+    if ($_[0]->{double} == 1)
+    {
+        $_[0]->{top} = $_[0]->{bottom} = $_[0]->{left};
+    }
+
+    return $class->$orig(@_);
+};
 
 =head1 METHODS
 
@@ -54,7 +99,7 @@ sub value
 
 Returns the tile object as string. This method is overloaded as string context. So if we print
 the object then this method gets called. You can explictly call this method  as  well. Suppose
-the tile has 3 left bips and 6 right bips then this would return it as [3 | 6].
+the tile has 3 left pips and 6 right pips then this would return it as [3 | 6].
 
     use strict; use warnings;
     use Games::Domino::Tile;

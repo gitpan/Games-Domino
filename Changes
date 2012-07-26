@@ -1,4 +1,10 @@
 Revision history for Games-Domino
 
-0.01    Wed Jul 25 22:30:00 2012
+0.02    Thu Jul 26 16:38:29 2012
+        - Extended Games::Domino::Tile class to hold double property
+          as well top/bottom. This is to support the vertical branch.
+        - Added unit test around the new attributes.
+        - Fixed few typo in the pod for Games::Domino::Tile class.
+
+0.01    Thu Jul 26 04:00:00 2012
         First version, released.

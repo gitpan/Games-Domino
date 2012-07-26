@@ -19,11 +19,11 @@ Games::Domino - Interface to the Domino game.
 
 =head1 VERSION
 
-Version 0.01
+Version 0.02
 
 =cut
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 has 'stock'     => (is => 'rw', isa => 'ArrayRef[Games::Domino::Tile]');
 has 'board'     => (is => 'rw', isa => 'ArrayRef[Games::Domino::Tile]');
@@ -45,7 +45,16 @@ never played in my life before.The two player in this games are named as "Human"
 Although there is no human interference at this point in time but it will be in future.  There
 is a cheat flag which makes the tiles for "Computer" visible to the other player "Human".Avoid
 this flag if possible. By the default the cheat flag is turned off. There is a debug switch as
-well which is turned off by default.
+well which is turned off by default.They are arranged like here before we shuffle to start the
+the game.
+
+    [0 | 0]
+    [0 | 1] [1 | 1]
+    [0 | 2] [1 | 2] [2 | 2]
+    [0 | 3] [1 | 3] [2 | 3] [3 | 3]
+    [0 | 4] [1 | 4] [2 | 4] [3 | 4] [4 | 4]
+    [0 | 5] [1 | 5] [2 | 5] [3 | 5] [4 | 5] [5 | 5]
+    [0 | 6] [1 | 6] [2 | 6] [3 | 6] [4 | 6] [5 | 6] [6 | 6]
 
     use strict; use warnings;
     use Games::Domino;
@@ -331,14 +340,16 @@ sub _prepare
     my $self  = shift;
 
     my $tiles = [];
-    my $tile  = Games::Domino::Tile->new({ left => 0, right => 0 });
+    my $tile  = Games::Domino::Tile->new({ left => 0, right => 0, double => 1 });
     push @$tiles, $tile;
     foreach my $R (1..6)
     {
         my $L = 0;
+        my $D = 0;
         while ($R >= $L)
         {
-            push @$tiles, Games::Domino::Tile->new({ left => $L, right => $R });
+            ($R == $L)?($D = 1):($D = 0);
+            push @$tiles, Games::Domino::Tile->new({ left => $L, right => $R, double => $D });
             $L++;
         }
     }

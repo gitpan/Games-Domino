@@ -30,15 +30,15 @@
    "provides" : {
       "Games::Domino" : {
          "file" : "lib/Games/Domino.pm",
-         "version" : "0.01"
+         "version" : "0.02"
       },
       "Games::Domino::Player" : {
          "file" : "lib/Games/Domino/Player.pm",
-         "version" : "0.01"
+         "version" : "0.02"
       },
       "Games::Domino::Tile" : {
          "file" : "lib/Games/Domino/Tile.pm",
-         "version" : "0.01"
+         "version" : "0.02"
       }
    },
    "release_status" : "stable",
@@ -47,5 +47,5 @@
          "http://dev.perl.org/licenses/"
       ]
    },
-   "version" : "0.01"
+   "version" : "0.02"
 }
