@@ -4,7 +4,7 @@
       "Mohammad S Anwar <mohammad.anwar@yahoo.com>"
    ],
    "dynamic_config" : 1,
-   "generated_by" : "Module::Build version 0.4001, CPAN::Meta::Converter version 2.120630",
+   "generated_by" : "Module::Build version 0.4001, CPAN::Meta::Converter version 2.120921",
    "license" : [
       "perl_5"
    ],
@@ -23,22 +23,22 @@
       },
       "configure" : {
          "requires" : {
-            "Module::Build" : "0.40"
+            "Module::Build" : "0.4"
          }
       }
    },
    "provides" : {
       "Games::Domino" : {
          "file" : "lib/Games/Domino.pm",
-         "version" : "0.02"
+         "version" : "0.03"
       },
       "Games::Domino::Player" : {
          "file" : "lib/Games/Domino/Player.pm",
-         "version" : "0.02"
+         "version" : "0.03"
       },
       "Games::Domino::Tile" : {
          "file" : "lib/Games/Domino/Tile.pm",
-         "version" : "0.02"
+         "version" : "0.03"
       }
    },
    "release_status" : "stable",
@@ -47,5 +47,5 @@
          "http://dev.perl.org/licenses/"
       ]
    },
-   "version" : "0.02"
+   "version" : "0.03"
 }

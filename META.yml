@@ -7,9 +7,9 @@ build_requires:
   Mouse: 0.93
   Test::More: 0
 configure_requires:
-  Module::Build: 0.40
+  Module::Build: 0.4
 dynamic_config: 1
-generated_by: 'Module::Build version 0.4001, CPAN::Meta::Converter version 2.120630'
+generated_by: 'Module::Build version 0.4001, CPAN::Meta::Converter version 2.120921'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -18,13 +18,13 @@ name: Games-Domino
 provides:
   Games::Domino:
     file: lib/Games/Domino.pm
-    version: 0.02
+    version: 0.03
   Games::Domino::Player:
     file: lib/Games/Domino/Player.pm
-    version: 0.02
+    version: 0.03
   Games::Domino::Tile:
     file: lib/Games/Domino/Tile.pm
-    version: 0.02
+    version: 0.03
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.02
+version: 0.03

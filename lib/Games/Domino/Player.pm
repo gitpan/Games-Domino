@@ -16,11 +16,11 @@ Games::Domino::Player - Represents the player of the Domino game.
 
 =head1 VERSION
 
-Version 0.02
+Version 0.03
 
 =cut
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 type 'HorC' => where { /^[H|C]$/i };
 
@@ -49,8 +49,7 @@ Saves the given tile to the bank of the player.
 
 =cut
 
-sub save
-{
+sub save {
     my $self = shift;
     my $tile = shift;
 
@@ -74,52 +73,13 @@ Returns the total value of all the tiles of the current player.
 
 =cut
 
-sub value
-{
+sub value {
     my $self  = shift;
     $self->{score} = 0;
-    foreach (@{$self->{bank}})
-    {
+    foreach (@{$self->{bank}}) {
         $self->{score} += $_->value;
     }
     return $self->{score};
-}
-
-=head2 as_string()
-
-Returns the player object as string.This method is overloaded as string context.So if we print
-the object then this method gets called. You can explictly call this method  as  well. Suppose
-the player has 2 tiles then this return something like [1 | 4] == [5 | 3].
-
-    use strict; use warnings;
-    use Games::Domino::Tile;
-    use Games::Domino::Player;
-
-    my $player = Games::Domino::Player->new({ name => 'H' });
-    $player->save(Games::Domino::Tile->new({ left => 1, right => 4 }));
-    $player->save(Games::Domino::Tile->new({ left => 5, right => 3 }));
-    print "Player: $player\n";
-
-=cut
-
-sub as_string
-{
-    my $self = shift;
-    my $bank = '';
-    foreach (@{$self->{bank}})
-    {
-        if ($self->show)
-        {
-            $bank .= sprintf("[%d | %d] == ", $_->left, $_->right);
-        }
-        else
-        {
-            $bank .= sprintf("[x | x] == ");
-        }
-    }
-    $bank =~ s/[\=]+\s?$//;
-    $bank =~ s/\s+$//;
-    return $bank;
 }
 
 =head2
@@ -139,23 +99,21 @@ value tile from the bank of the player.
 
 =cut
 
-sub pick
-{
-    my $self = shift;
-    my $ends = shift;
+sub pick {
+    my $self  = shift;
+    my $left  = shift;
+    my $right = shift;
 
-    return $self->_pick($ends)
-        if (defined($ends) && (scalar(@$ends) > 0));
+    return $self->_pick($left, $right)
+        if (defined($left) && defined($right));
 
     my $i    = 0;
     my $pos  = 0;
     my $max  = 0;
     my $tile = undef;
 
-    foreach (@{$self->{bank}})
-    {
-        if ($_->value > $max)
-        {
+    foreach (@{$self->{bank}}) {
+        if ($_->value > $max) {
             $max  = $_->value;
             $tile = $_;
             $pos  = $i;
@@ -167,33 +125,114 @@ sub pick
     return $tile;
 }
 
-sub _pick
-{
+=head2 as_string()
+
+Returns the player object as string.This method is overloaded as string context.So if we print
+the object then this method gets called. You can explictly call this method  as  well. Suppose
+the player has 2 tiles then this return something like [1 | 4] == [5 | 3].
+
+    use strict; use warnings;
+    use Games::Domino::Tile;
+    use Games::Domino::Player;
+
+    my $player = Games::Domino::Player->new({ name => 'H' });
+    $player->save(Games::Domino::Tile->new({ left => 1, right => 4 }));
+    $player->save(Games::Domino::Tile->new({ left => 5, right => 3 }));
+    print "Player: $player\n";
+
+=cut
+
+sub as_string {
     my $self = shift;
-    my $ends = shift;
+    my $bank = '';
+    foreach (@{$self->{bank}}) {
+        if ($self->show) {
+            $bank .= sprintf("[%d | %d]==", $_->left, $_->right);
+        } else {
+            $bank .= sprintf("[x | x]==");
+        }
+    }
+    $bank =~ s/[\=]+\s?$//;
+    $bank =~ s/\s+$//;
+    return $bank;
+}
+
+sub _pick {
+    my $self  = shift;
+    my $left  = shift;
+    my $right = shift;
 
     my $i    = 0;
     my $pos  = 0;
     my $tile = undef;
-    foreach (@{$self->{bank}})
-    {
+
+    # Find all matching tiles.
+    my $matched = {};
+    foreach (@{$self->{bank}}) {
         my $L = $_->left;
         my $R = $_->right;
-        if (grep(/$L/, @{$ends}) || grep (/$R/, @{$ends}))
-        {
+        if (($left =~ /$L|$R/) || ($right =~ /$L|$R/)) {
             $pos = $i;
             $tile = $_;
-            last;
+            $matched->{$i} = $tile;
         }
         $i++;
     }
 
-    if (defined($tile))
-    {
-        splice(@{$self->{bank}}, $i, 1);
-        return $tile;
+    # Pick the maximum value tile among all the matched ones.
+    my $pick = undef;
+    my $max = 0;
+    foreach (keys %{$matched}) {
+        if ($matched->{$_}->value > $max) {
+            $max = $matched->{$_}->value;
+            $pick = { i => $_, t => $matched->{$_} };
+        }
+    }
+
+    if (defined($pick)) {
+        splice(@{$self->{bank}}, $pick->{i}, 1);
+        return $pick->{t};
     }
     return;
+}
+
+sub _available_indexes {
+    my $self = shift;
+
+    return 1 if (scalar(@{$self->{bank}}) == 1);
+    return "1..".scalar(@{$self->{bank}});
+}
+
+sub _validate_index {
+    my $self  = shift;
+    my $index = shift;
+
+    return 0 unless (defined($index) && ($index =~ /^\d+$/));
+    return 1 if ((scalar(@{$self->{bank}}) >= $index) && ($index >= 1));
+    return 0;
+}
+
+sub _validate_tile {
+    my $self  = shift;
+    my $index = shift;
+    my $left  = shift;
+    my $right = shift;
+
+    return 0 unless (defined($index) && ($index =~ /^\d+$/));
+    return 1 unless (defined $left && defined $right);
+
+    my $tile = $self->{bank}->[$index-1];
+    my $L = $tile->left;
+    my $R = $tile->right;
+
+    return 1 if (($left =~ /$L|$R/) || ($right =~ /$L|$R/));
+    return 0;
+}
+
+sub _tile {
+    my $self  = shift;
+    my $index = shift;
+    return $self->{bank}->[$index-1];
 }
 
 =head1 AUTHOR

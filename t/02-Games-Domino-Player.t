@@ -22,7 +22,7 @@ $player->save(Games::Domino::Tile->new({ left => 0, right => 1 }));
 $player->save(Games::Domino::Tile->new({ left => 1, right => 1 }));
 is($player->value, 3);
 
-is($player->as_string, "[0 | 1] == [1 | 1]");
+is($player->as_string, "[0 | 1]==[1 | 1]");
 
 $tile = $player->pick();
 is($tile->as_string, "[1 | 1]");

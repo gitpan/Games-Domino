@@ -15,5 +15,5 @@ like($@, qr/Attribute \(cheat\) does not pass the type constraint/);
 eval { Games::Domino->new({ debug => 2 }); };
 like($@, qr/Attribute \(debug\) does not pass the type constraint/);
 
-$tile = $game->draw();
+$tile = $game->play();
 ok($tile);
