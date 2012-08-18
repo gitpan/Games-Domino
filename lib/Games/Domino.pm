@@ -24,11 +24,11 @@ Games::Domino - Interface to the Domino game.
 
 =head1 VERSION
 
-Version 0.03
+Version 0.04
 
 =cut
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 has 'stock'    => (is => 'rw', isa => 'ArrayRef[Games::Domino::Tile]');
 has 'board'    => (is => 'rw', isa => 'ArrayRef[Games::Domino::Tile]');
@@ -43,14 +43,11 @@ has 'debug'    => (is => 'rw', isa => 'ZeroOrOne', default => 0);
 =head1 DESCRIPTION
 
 This is a very basic Domino game played by two players  (computer vs computer) at the  moment.
-I will extend it to make it interactive so that it can be played against human very soon. This
-is just an initial draft of Proof of Concept. Also to get my head around the game which I have
-never played in my life before.The two player in this games are named as "Human" & "Computer".
-Although there is no human interference at this point in time but it will be in future.  There
-is a cheat flag which makes the tiles for "Computer" visible to the other player "Human".Avoid
-this flag if possible. By the default the cheat flag is turned off. There is a debug switch as
-well which is turned off by default.They are arranged like here before we shuffle to start the
-the game.
+This is just an initial draft of Proof of Concept, also to get my head around the game which I
+have never played in my life before.There is a cheat flag which makes the tiles for "Computer"
+visible to the other player "Human".Avoid this flag if possible. By the default the cheat flag
+is turned off.There is a debug switch as well which is turned off by default.They are arranged
+like here before we shuffle to start the the game.
 
     [0 | 0]
     [0 | 1] [1 | 1]
@@ -63,7 +60,7 @@ the game.
     use strict; use warnings;
     use Games::Domino;
 
-    my $game = Games::Domino->new();
+    my $domino = Games::Domino->new();
 
 =cut
 
@@ -98,8 +95,8 @@ until it found one or the stock has only 2 tiles left at that time the game is o
     use strict; use warnings;
     use Games::Domino;
 
-    my $game = Games::Domino->new();
-    $game->play;
+    my $domino = Games::Domino->new();
+    $domino->play;
 
 =cut
 
@@ -155,8 +152,8 @@ following circumstances:
     use strict; use warnings;
     use Games::Domino;
 
-    my $game = Games::Domino->new();
-    do { $game->play; } until $game->is_over;
+    my $domino = Games::Domino->new();
+    do { $domino->play; } until $domino->is_over;
 
 =cut
 
@@ -177,9 +174,9 @@ Declares who is the winner against whom and by how much margin.
     use strict; use warnings;
     use Games::Domino;
 
-    my $game = Games::Domino->new();
-    do { $game->play; } until $game->is_over;
-    $game->result;
+    my $domino = Games::Domino->new();
+    do { $domino->play; } until $domino->is_over;
+    $domino->result;
 
 =cut
 
@@ -210,8 +207,8 @@ Print the current tiles of Computer, Human and matched one.
     use strict; use warnings;
     use Games::Domino;
 
-    my $game = Games::Domino->new();
-    do { $game->play; $game->show; } until $game->is_over;
+    my $domino = Games::Domino->new();
+    do { $domino->play; $domino->show; } until $domino->is_over;
 
 =cut
 
@@ -231,9 +228,9 @@ Returns all the unused tiles remained in the bank.
     use strict; use warnings;
     use Games::Domino;
 
-    my $game = Games::Domino->new();
-    do { $game->play; } until $game->is_over;
-    print "GAME : $game\n\n";
+    my $domino = Games::Domino->new();
+    do { $domino->play; } until $domino->is_over;
+    print "DOMINO : $domino\n\n";
 
 =cut
 

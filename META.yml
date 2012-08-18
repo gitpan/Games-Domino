@@ -18,13 +18,13 @@ name: Games-Domino
 provides:
   Games::Domino:
     file: lib/Games/Domino.pm
-    version: 0.03
+    version: 0.04
   Games::Domino::Player:
     file: lib/Games/Domino/Player.pm
-    version: 0.03
+    version: 0.04
   Games::Domino::Tile:
     file: lib/Games/Domino/Tile.pm
-    version: 0.03
+    version: 0.04
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.03
+version: 0.04

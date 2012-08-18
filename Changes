@@ -1,5 +1,8 @@
 Revision history for Games-Domino
 
+0.04    Sat Aug 18 21:33:29 2012
+        - Updated the text for "DESCRIPTION".
+
 0.03    Sat Aug 18 18:19:20 2012
         - Major changes to let the user play with the computer (interactive mode).
         - Fixed couple of bugs encountered while making changes.
