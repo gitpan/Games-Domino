@@ -24,11 +24,11 @@ Games::Domino - Interface to the Domino game.
 
 =head1 VERSION
 
-Version 0.04
+Version 0.05
 
 =cut
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 has 'stock'    => (is => 'rw', isa => 'ArrayRef[Games::Domino::Tile]');
 has 'board'    => (is => 'rw', isa => 'ArrayRef[Games::Domino::Tile]');
@@ -42,12 +42,12 @@ has 'debug'    => (is => 'rw', isa => 'ZeroOrOne', default => 0);
 
 =head1 DESCRIPTION
 
-This is a very basic Domino game played by two players  (computer vs computer) at the  moment.
-This is just an initial draft of Proof of Concept, also to get my head around the game which I
-have never played in my life before.There is a cheat flag which makes the tiles for "Computer"
-visible to the other player "Human".Avoid this flag if possible. By the default the cheat flag
-is turned off.There is a debug switch as well which is turned off by default.They are arranged
-like here before we shuffle to start the the game.
+This is a very basic Domino game played by two players (Computer vs Human) at the  moment.This
+is just an initial draft of Proof of Concept, also to get my head around the game which I have
+never played in my life before. There is a cheat flag which makes tiles for "Computer" visible
+to the other player "Human". Avoid this flag if possible. By default  the cheat flag is turned
+off.There is a debug switch as well which is turned off by default.They are arranged like here
+before we shuffle to start the the game.
 
     [0 | 0]
     [0 | 1] [1 | 1]

@@ -14,11 +14,11 @@ Games::Domino::Tile - Represents the tile of the Domino game.
 
 =head1 VERSION
 
-Version 0.04
+Version 0.05
 
 =cut
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 type 'ZeroOrOne' => where { /^[1|0]$/ };
 type 'ZeroToSix' => where { /^[0-6]$/ };

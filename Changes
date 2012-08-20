@@ -1,5 +1,8 @@
 Revision history for Games-Domino
 
+0.05    Mon Aug 20 13:11:50 2012
+        - Fixed the typo in the pod for "DESCRIPTION".
+
 0.04    Sat Aug 18 21:33:29 2012
         - Updated the text for "DESCRIPTION".
 
