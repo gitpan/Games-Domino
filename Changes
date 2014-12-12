@@ -1,5 +1,12 @@
 Revision history for Games-Domino
 
+0.06    Fri Dec 12 03:00:50 2014
+        - Re-structured the code using 'Moo' i.e. downgrading from 'Moose'.
+        - Added package Games::Domino::Params to support common data types.
+        - Deleted Build.PL file.
+        - Deleted SIGNATURE file.
+        - Updated unit test to respect 'Moo'.
+
 0.05    Mon Aug 20 13:11:50 2012
         - Fixed the typo in the pod for "DESCRIPTION".
 

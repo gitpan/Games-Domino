@@ -4,48 +4,49 @@
       "Mohammad S Anwar <mohammad.anwar@yahoo.com>"
    ],
    "dynamic_config" : 1,
-   "generated_by" : "Module::Build version 0.4001, CPAN::Meta::Converter version 2.120921",
+   "generated_by" : "ExtUtils::MakeMaker version 7, CPAN::Meta::Converter version 2.141520",
    "license" : [
-      "perl_5"
+      "artistic_2"
    ],
    "meta-spec" : {
       "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
       "version" : "2"
    },
    "name" : "Games-Domino",
+   "no_index" : {
+      "directory" : [
+         "t",
+         "inc"
+      ]
+   },
    "prereqs" : {
       "build" : {
          "requires" : {
-            "List::Util" : "1.25",
-            "Mouse" : "0.93",
             "Test::More" : "0"
          }
       },
       "configure" : {
          "requires" : {
-            "Module::Build" : "0.4"
+            "ExtUtils::MakeMaker" : "0"
          }
-      }
-   },
-   "provides" : {
-      "Games::Domino" : {
-         "file" : "lib/Games/Domino.pm",
-         "version" : "0.05"
       },
-      "Games::Domino::Player" : {
-         "file" : "lib/Games/Domino/Player.pm",
-         "version" : "0.05"
-      },
-      "Games::Domino::Tile" : {
-         "file" : "lib/Games/Domino/Tile.pm",
-         "version" : "0.05"
+      "runtime" : {
+         "requires" : {
+            "Attribute::Memoize" : "1.01",
+            "List::Util" : "1.19",
+            "Moo" : "0",
+            "namespace::clean" : "0",
+            "perl" : "5.006"
+         }
       }
    },
    "release_status" : "stable",
    "resources" : {
-      "license" : [
-         "http://dev.perl.org/licenses/"
-      ]
+      "repository" : {
+         "type" : "git",
+         "url" : "https://github.com/Manwar/Games-Domino.git",
+         "web" : "https://github.com/Manwar/Games-Domino"
+      }
    },
-   "version" : "0.05"
+   "version" : "0.06"
 }

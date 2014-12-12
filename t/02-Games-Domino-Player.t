@@ -8,7 +8,7 @@ use Test::More tests => 7;
 my ($player, $tile);
 
 eval { Games::Domino::Player->new() };
-like($@, qr/Attribute \(name\) is required/);
+like($@, qr/Missing required arguments: nam/);
 
 eval { Games::Domino::Player->new({ name => 'A' }) };
 like($@, qr/Attribute \(name\) does not pass the type constraint/);

@@ -1,14 +1,6 @@
 package Games::Domino::Player;
 
-use 5.006;
-use strict; use warnings;
-
-use Carp;
-use Mouse;
-use Mouse::Util::TypeConstraints;
-
-use Data::Dumper;
-use overload ( '""'  => \&as_string );
+$Games::Domino::Player::VERSION = '0.06';
 
 =head1 NAME
 
@@ -16,23 +8,28 @@ Games::Domino::Player - Represents the player of the Domino game.
 
 =head1 VERSION
 
-Version 0.05
+Version 0.06
 
 =cut
 
-our $VERSION = '0.05';
+use 5.006;
+use Data::Dumper;
+use Games::Domino::Params qw($HorC);
 
-type 'HorC' => where { /^[H|C]$/i };
+use Moo;
+use namespace::clean;
 
-has 'name'  => (is => 'ro', isa => 'HorC', required => 1);
-has 'bank'  => (is => 'rw', isa => 'ArrayRef[Games::Domino::Tile]');
-has 'score' => (is => 'rw', isa => 'Int');
-has 'show'  => (is => 'rw', isa => 'ZeroOrOne', default => 0);
+use overload ('""' => \&as_string);
+
+has 'name'  => (is => 'ro', isa => $HorC, required => 1);
+has 'bank'  => (is => 'rw');
+has 'score' => (is => 'rw');
+has 'show'  => (is => 'rw', default => sub { return 0 });
 
 =head1 DESCRIPTION
 
-The Games::Domino::Player class is used by Games::Domino class internally.It shouldn't be used
-directly.
+The Games::Domino::Player class is used by Games::Domino class internally.  It is
+used internally.
 
 =head1 METHODS
 
@@ -50,10 +47,9 @@ Saves the given tile to the bank of the player.
 =cut
 
 sub save {
-    my $self = shift;
-    my $tile = shift;
+    my ($self, $tile) = @_;
 
-    croak("ERROR: Undefined tile found.\n") unless defined $tile;
+    die("ERROR: Undefined tile found.\n") unless defined $tile;
 
     push @{$self->{bank}}, $tile;
 }
@@ -74,7 +70,8 @@ Returns the total value of all the tiles of the current player.
 =cut
 
 sub value {
-    my $self  = shift;
+    my ($self) = @_;
+
     $self->{score} = 0;
     foreach (@{$self->{bank}}) {
         $self->{score} += $_->value;
@@ -82,10 +79,10 @@ sub value {
     return $self->{score};
 }
 
-=head2
+=head2 pick()
 
-Returns a matching tile for the given open ends. If no open ends found it then returns highest
-value tile from the bank of the player.
+Returns  a  matching  tile for the given open ends. If no open ends found it then
+returns highest value tile from the bank of the player.
 
     use strict; use warnings;
     use Games::Domino::Tile;
@@ -100,9 +97,7 @@ value tile from the bank of the player.
 =cut
 
 sub pick {
-    my $self  = shift;
-    my $left  = shift;
-    my $right = shift;
+    my ($self, $left, $right) = @_;
 
     return $self->_pick($left, $right)
         if (defined($left) && defined($right));
@@ -127,9 +122,10 @@ sub pick {
 
 =head2 as_string()
 
-Returns the player object as string.This method is overloaded as string context.So if we print
-the object then this method gets called. You can explictly call this method  as  well. Suppose
-the player has 2 tiles then this return something like [1 | 4] == [5 | 3].
+Returns  the player object as string.This method is overloaded as string context.
+So  if  we  print the object then this method gets called. You can explictly call
+this method  as  well. Suppose the  player has 2 tiles then this return something
+like [1 | 4] == [5 | 3].
 
     use strict; use warnings;
     use Games::Domino::Tile;
@@ -143,7 +139,8 @@ the player has 2 tiles then this return something like [1 | 4] == [5 | 3].
 =cut
 
 sub as_string {
-    my $self = shift;
+    my ($self) = @_;
+
     my $bank = '';
     foreach (@{$self->{bank}}) {
         if ($self->show) {
@@ -157,10 +154,12 @@ sub as_string {
     return $bank;
 }
 
+#
+#
+# PRIVATE METHODS
+
 sub _pick {
-    my $self  = shift;
-    my $left  = shift;
-    my $right = shift;
+    my ($self, $left, $right) = @_;
 
     my $i    = 0;
     my $pos  = 0;
@@ -197,15 +196,14 @@ sub _pick {
 }
 
 sub _available_indexes {
-    my $self = shift;
+    my ($self) = @_;
 
     return 1 if (scalar(@{$self->{bank}}) == 1);
     return "1..".scalar(@{$self->{bank}});
 }
 
 sub _validate_index {
-    my $self  = shift;
-    my $index = shift;
+    my ($self, $index) = @_;
 
     return 0 unless (defined($index) && ($index =~ /^\d+$/));
     return 1 if ((scalar(@{$self->{bank}}) >= $index) && ($index >= 1));
@@ -213,10 +211,7 @@ sub _validate_index {
 }
 
 sub _validate_tile {
-    my $self  = shift;
-    my $index = shift;
-    my $left  = shift;
-    my $right = shift;
+    my ($self, $index, $left, $right) = @_;
 
     return 0 unless (defined($index) && ($index =~ /^\d+$/));
     return 1 unless (defined $left && defined $right);
@@ -230,8 +225,8 @@ sub _validate_tile {
 }
 
 sub _tile {
-    my $self  = shift;
-    my $index = shift;
+    my ($self, $index) = @_;
+
     return $self->{bank}->[$index-1];
 }
 
@@ -239,11 +234,16 @@ sub _tile {
 
 Mohammad S Anwar, C<< <mohammad.anwar at yahoo.com> >>
 
+=head1 REPOSITORY
+
+L<https://github.com/Manwar/Games-Domino>
+
 =head1 BUGS
 
-Please report any bugs or feature requests to C<bug-games-domino at rt.cpan.org>,  or  through
-the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Games-Domino>. I will be
-notified, and then you'll automatically be notified of progress on your bug as I make changes.
+Please report any bugs or feature requests to C<bug-games-domino at rt.cpan.org>,
+or through the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Games-Domino>.
+I will be notified, and then you'll automatically be notified of progress on your
+bug as I make changes.
 
 =head1 SUPPORT
 
@@ -275,23 +275,42 @@ L<http://search.cpan.org/dist/Games-Domino/>
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright 2012 Mohammad S Anwar.
+Copyright 2012 - 2014 Mohammad S Anwar.
 
-This  program  is  free software;  you can redistribute it and/or modify it under the terms of
-either:  the  GNU  General Public License as published by the Free Software Foundation; or the
-Artistic License.
+This  program  is  free software; you can redistribute it and/or modify it under
+the  terms  of the the Artistic License (2.0). You may obtain a copy of the full
+license at:
 
-See http://dev.perl.org/licenses/ for more information.
+L<http://www.perlfoundation.org/artistic_license_2_0>
 
-=head1 DISCLAIMER
+Any  use,  modification, and distribution of the Standard or Modified Versions is
+governed by this Artistic License.By using, modifying or distributing the Package,
+you accept this license. Do not use, modify, or distribute the Package, if you do
+not accept this license.
 
-This  program  is  distributed  in  the hope that it will be useful, but WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+If your Modified Version has been derived from a Modified Version made by someone
+other than you,you are nevertheless required to ensure that your Modified Version
+ complies with the requirements of this license.
+
+This  license  does  not grant you the right to use any trademark,  service mark,
+tradename, or logo of the Copyright Holder.
+
+This license includes the non-exclusive, worldwide, free-of-charge patent license
+to make,  have made, use,  offer to sell, sell, import and otherwise transfer the
+Package with respect to any patent claims licensable by the Copyright Holder that
+are  necessarily  infringed  by  the  Package. If you institute patent litigation
+(including  a  cross-claim  or  counterclaim) against any party alleging that the
+Package constitutes direct or contributory patent infringement,then this Artistic
+License to you shall terminate on the date that such litigation is filed.
+
+Disclaimer  of  Warranty:  THE  PACKAGE  IS  PROVIDED BY THE COPYRIGHT HOLDER AND
+CONTRIBUTORS  "AS IS'  AND WITHOUT ANY EXPRESS OR IMPLIED WARRANTIES. THE IMPLIED
+WARRANTIES    OF   MERCHANTABILITY,   FITNESS   FOR   A   PARTICULAR  PURPOSE, OR
+NON-INFRINGEMENT ARE DISCLAIMED TO THE EXTENT PERMITTED BY YOUR LOCAL LAW. UNLESS
+REQUIRED BY LAW, NO COPYRIGHT HOLDER OR CONTRIBUTOR WILL BE LIABLE FOR ANY DIRECT,
+INDIRECT, INCIDENTAL,  OR CONSEQUENTIAL DAMAGES ARISING IN ANY WAY OUT OF THE USE
+OF THE PACKAGE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =cut
-
-__PACKAGE__->meta->make_immutable;
-no Mouse;
-no Mouse::Util::TypeConstraints;
 
 1; # End of Games::Domino::Player

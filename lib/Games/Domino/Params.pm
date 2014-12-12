@@ -1,10 +1,10 @@
-package Games::Domino::Tile;
+package Games::Domino::Params;
 
-$Games::Domino::Tile::VERSION = '0.06';
+$Games::Domino::Params::VERSION = '0.06';
 
 =head1 NAME
 
-Games::Domino::Tile - Represents the tile of the Domino game.
+Games::Domino::Params - Placeholder for parameters for Games::Domino
 
 =head1 VERSION
 
@@ -13,101 +13,27 @@ Version 0.06
 =cut
 
 use 5.006;
+use strict; use warnings;
 use Data::Dumper;
-use Games::Domino::Params qw($ZeroOrOne $ZeroToSix);
 
-use Moo;
-use namespace::clean;
+use vars qw(@ISA @EXPORT @EXPORT_OK);
 
-use overload ('""' => \&as_string);
+require Exporter;
+@ISA = qw(Exporter);
+@EXPORT_OK = qw($ZeroOrOne $ZeroToSix $HorC);
 
-has 'left'   => (is => 'rw', isa => $ZeroToSix, required => 1);
-has 'right'  => (is => 'rw', isa => $ZeroToSix, required => 1);
-has 'double' => (is => 'ro', isa => $ZeroOrOne, required => 1);
-has 'top'    => (is => 'rw', isa => $ZeroToSix);
-has 'bottom' => (is => 'rw', isa => $ZeroToSix);
-
-=head1 DESCRIPTION
-
-The Games::Domino::Tile class is used by Games::Domino class internally.It is used
-internally.
-
-=cut
-
-around BUILDARGS => sub {
-    my $orig  = shift;
-    my $class = shift;
-
-    unless (exists $_[0]->{double}) {
-        if (defined($_[0]->{left})
-            && defined($_[0]->{right})
-            && ($_[0]->{left} == $_[0]->{right})) {
-            $_[0]->{double} = 1;
-            $_[0]->{top} = $_[0]->{bottom} = $_[0]->{left};
-        }
-        else {
-            $_[0]->{double} = 0;
-        }
-    }
-
-    die("ERROR: Invalid double attribute for the tile.\n")
-        if (defined($_[0]->{left})
-            && defined($_[0]->{right})
-            && ( (($_[0]->{left} == $_[0]->{right})
-                  && ($_[0]->{double} != 1))
-                 ||
-                 (($_[0]->{left} != $_[0]->{right})
-                  && ($_[0]->{double} != 0)) )) ;
-
-    if ($_[0]->{double} == 1) {
-        $_[0]->{top} = $_[0]->{bottom} = $_[0]->{left};
-    }
-
-    return $class->$orig(@_);
+our $ZeroOrOne = sub {
+    die "ERROR: Only 0 or 1 allowed.\n" unless ($_[0] =~ /^[0|1]$/);
 };
 
-=head1 METHODS
+our $ZeroToSix = sub {
+    die "ERROR: Only 0 to 6 allowed.\n" unless ($_[0] =~ /^[0-6]$/);
+};
 
-=head2 value()
+our $HorC = sub {
+    die "Attribute (name) does not pass the type constraint [$_[0]].\n" unless ($_[0] =~ /^[H|C]$/i);
+};
 
-Returns the value of the tile i.e. sum of left and right bips.
-
-    use strict; use warnings;
-    use Games::Domino::Tile;
-
-    my $tile = Games::Domino::Tile->new({ left => 1, right => 4 });
-    print "Value of the tile is [" . $tile->value . "].\n";
-
-=cut
-
-sub value {
-    my ($self) = @_;
-
-    return ($self->{left} + $self->{right});
-}
-
-=head2 as_string()
-
-Returns the tile object as string. This method is overloaded as string context.So
-if we print the object then this method gets called.  You can explictly call this
-method as well. Suppose the tile has 3 left pips and 6 right pips then this would
-return it as [3 | 6].
-
-    use strict; use warnings;
-    use Games::Domino::Tile;
-
-    my $tile = Games::Domino::Tile->new({ left => 1, right => 4 });
-    print "The tile is $tile\n";
-    # same as above
-    print "The tile is " . $tile->as_string() . "\n";
-
-=cut
-
-sub as_string {
-    my ($self) = @_;
-
-    return sprintf("[%d | %d]", $self->left, $self->right);
-}
 
 =head1 AUTHOR
 
@@ -128,7 +54,7 @@ bug as I make changes.
 
 You can find documentation for this module with the perldoc command.
 
-    perldoc Games::Domino::Tile
+    perldoc Games::Domino::Params
 
 You can also look for information at:
 
@@ -192,4 +118,4 @@ OF THE PACKAGE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =cut
 
-1; # End of Games::Domino::Tile
+1; # End of Games::Domino::Params

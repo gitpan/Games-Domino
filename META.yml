@@ -3,28 +3,26 @@ abstract: 'Interface to the Domino game.'
 author:
   - 'Mohammad S Anwar <mohammad.anwar@yahoo.com>'
 build_requires:
-  List::Util: 1.25
-  Mouse: 0.93
-  Test::More: 0
+  Test::More: '0'
 configure_requires:
-  Module::Build: 0.4
+  ExtUtils::MakeMaker: '0'
 dynamic_config: 1
-generated_by: 'Module::Build version 0.4001, CPAN::Meta::Converter version 2.120921'
-license: perl
+generated_by: 'ExtUtils::MakeMaker version 7, CPAN::Meta::Converter version 2.141520'
+license: artistic_2
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
-  version: 1.4
+  version: '1.4'
 name: Games-Domino
-provides:
-  Games::Domino:
-    file: lib/Games/Domino.pm
-    version: 0.05
-  Games::Domino::Player:
-    file: lib/Games/Domino/Player.pm
-    version: 0.05
-  Games::Domino::Tile:
-    file: lib/Games/Domino/Tile.pm
-    version: 0.05
+no_index:
+  directory:
+    - t
+    - inc
+requires:
+  Attribute::Memoize: '1.01'
+  List::Util: '1.19'
+  Moo: '0'
+  namespace::clean: '0'
+  perl: '5.006'
 resources:
-  license: http://dev.perl.org/licenses/
-version: 0.05
+  repository: https://github.com/Manwar/Games-Domino.git
+version: '0.06'

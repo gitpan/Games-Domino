@@ -10,10 +10,10 @@ $game = Games::Domino->new();
 ok($game);
 
 eval { Games::Domino->new({ cheat => 2 }); };
-like($@, qr/Attribute \(cheat\) does not pass the type constraint/);
+like($@, qr/isa check for "cheat" failed: ERROR: Only 0 or 1 allowed/);
 
 eval { Games::Domino->new({ debug => 2 }); };
-like($@, qr/Attribute \(debug\) does not pass the type constraint/);
+like($@, qr/isa check for "debug" failed: ERROR: Only 0 or 1 allowed/);
 
 $tile = $game->play();
 ok($tile);
